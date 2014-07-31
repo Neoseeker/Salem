@@ -1,7 +1,7 @@
 '''
 Module: NeoRaffle
 Author: Tiffany di Vita <tiffany@neoseeker.com>
-Version: 1.0 (2014-06-26)
+Version: 1.1 (2014-07-31)
 License: Released under WTFPL <http://www.wtfpl.net/txt/copying/>
 
 ===========
