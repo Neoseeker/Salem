@@ -821,25 +821,27 @@ class neoraffle:
                 
         if curtopbid >= bid:
             raise BidDoesNotExceedCurrentTopBid("The bid of {0} did not exceed the current top bid for lot {1}, which is: {2}".format(bid, item.iid, curtopbid))
-        
-        # Make the bid:    
-        try:
-            self.__updateHeldCurrency(user, bid)
-            
-            procbid = Bids(bidder=user, item=item, amount=bid)
-        
-            self.__session.add(procbid)
-            self.__session.commit()
-        except UserCannotAffordItem:
-            raise
-        
-        # Refund previous top bidder if one exists:
+
+        # Firstly, refund the previous top bidder. This will allow a user to outbid themselves as per request:
         if curtopbid:
             try:
                 self.__updateHeldCurrency(curtopbidder, curtopbid-(curtopbid*2))
             except:
-                log.critical("Critical error refunding bid. User {0} bid of {1} on item {2} wasn't refunded correctly and a later bid was processed - their available currency may be in an incorrect state!".format(curtopbidder.uid, curtopbid, item.iid))
+                log.exception("Critical error refunding bid!")
                 raise
+        
+        # Remove the new bid from the bidder's currency:    
+        try:
+            self.__updateHeldCurrency(user, bid)
+        except: # If any errors occur at all during this, we need to try to reverse the refund:
+            self.__updateHeldCurrency(curtopbidder, curtopbid)
+            raise
+        
+        # Commit the bid to the DB if all went well and return:
+        procbid = Bids(bidder=user, item=item, amount=bid)
+        
+        self.__session.add(procbid)
+        self.__session.commit()
             
         return {'iteminfo':{'lotnum':item.iid, 'title':item.title},'prevtopbidder':{'userid':curtopbidderid,'amount':curtopbid},'newtopbidder':{'userid':user.uid,'amount':bid}}
         
