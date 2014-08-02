@@ -427,6 +427,7 @@ class neoraffle:
                  { 
                      lot -> ID of the lot.
                      from -> Username of person who put up the lot.
+                     quantity -> Number auctioned/raffled.
                      title -> Title of the item.
                      type -> lot type
                      winners -> list of usernames drawn as winners for the lot.
@@ -477,7 +478,7 @@ class neoraffle:
                     log.debug("No tickets purchased for item: {0} when running pick winners routine.".format(item.iid))
                 
                 # Add item for return:
-                rtn.append({'lot':item.iid,'from':item.offered.username,'title':item.title,'type':item.auctiontype,'winners':winners})
+                rtn.append({'lot':item.iid,'from':item.offered.username,'quantity':item.quantity, 'title':item.title,'type':item.auctiontype,'winners':winners})
                     
             return rtn
         finally:

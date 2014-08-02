@@ -403,10 +403,8 @@ class raffleplugin():
 			They are as follows: \n[ul]\n".format(datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S'))
 			
 			for win in winners:
-				output += "[size=4][b]Lot {0} ({1})[/b][/size]\n".format(win['lot'], "Raffle" if win['type']==1 else "Auction")
-				output += "[i]{0} by {1}[/i]\n\n".format("Raffled" if win['type']==1 else "Auctioned", self.neo.getForumNotifyStringForUsername(win['from']))
-				output += "[b]{0}[/b]\n\n".format(win['title'])
-				
+				output += "[size=4][b]Lot {0} ({1}): [http://raffle.pwnsu.com/items/{2}/ {3}][/b][/size]\n".format(win['lot'], "Raffle" if win['type']==1 else "Auction", win['lot'], win['title'])
+				output += "[i]{}x {} by {}[/i]\n\n".format(win['quantity'], "Raffled" if win['type']==1 else "Auctioned", self.neo.getForumNotifyStringForUsername(win['from']))
 				
 				if len(win['winners']) == 0:
 					output += "No winners for this item. No-one {0} for it. :(\n\n".format("bought tickets" if win['type']==1 else "bidded")
