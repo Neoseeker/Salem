@@ -261,7 +261,7 @@ class raffleplugin():
 					if prevbiddernotify:
 						output += "\n\n[color=red][b]ALERT[/b][/color]: {0} has been outbid for this lot! The previous top bid was: [b]{1}[/b]".format(prevbiddernotify, prevtopbid)
 				elif extractedData[0].upper() == "BUY":
-					output += "[color=green][b]Raffle Purchase Successful![/b][/color] You have successfully bought [b]{}[/b] tickets for lot {} ([http://raffle.pwnsu.com/items/{}/ {}]) at the cost of [b]{}[/b] per ticket, totalling [b]{}[/b].".format(extractedData[2], extractedData[2], rtn['iteminfo']['lotnum'], rtn['iteminfo']['title'], rtn['costinfo']['ticketprice'], rtn['costinfo']['totalcost'])
+					output += "[color=green][b]Raffle Purchase Successful![/b][/color] You have successfully bought [b]{}[/b] tickets for lot {} ([http://raffle.pwnsu.com/items/{}/ {}]) at the cost of [b]{}[/b] per ticket, totalling [b]{}[/b].".format(extractedData[2], rtn['iteminfo']['lotnum'], rtn['iteminfo']['lotnum'], rtn['iteminfo']['title'], rtn['costinfo']['ticketprice'], rtn['costinfo']['totalcost'])
 			
 			output += "\n\n"
 		output += "You have [color=red][b]{0}[/b][/color] points remaining.".format(self.raffle.getUserAvailableCurrency(apiMemberInfo['memberid']))
